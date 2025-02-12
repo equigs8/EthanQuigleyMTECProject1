@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class Card : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class Card : MonoBehaviour
     private Material _material;
 
     private int _dissolveAmount = Shader.PropertyToID("_DissolveAmount");
+
+    [SerializeField] private int slot;
 
     void Start()
     {
@@ -48,12 +51,17 @@ public class Card : MonoBehaviour
         }
     }
 
+    public int GetSlot()
+    {
+        return slot;
+    }
+
     void OnMouseUp()
     {
         if (isOverDropZone)
         {
             Debug.Log("OnMouseUp and isOverDropZone");
-            SetCardPostion(dropZone);
+            SetCardPostion(dropZone, slot);
             StartCoroutine(Vanish());
         }
         isDragging = false;
@@ -91,9 +99,10 @@ public class Card : MonoBehaviour
             }
         }
     }
-    public void SetCardPostion(Transform transform)
+    public void SetCardPostion(Transform transform, int cardSlot)
     {
         cardPosition = transform;
+        slot = cardSlot;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -114,7 +123,7 @@ public class Card : MonoBehaviour
 
             yield return null;
         }
-        gameManager.PlayCard();
+        gameManager.PlayCard(slot,dropZone);
         this.gameObject.SetActive(false);
     }
 }

@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
     public Transform[] cardSlots;
     public bool[] avilableCardSlots;
 
+    public bool controllingUnit = false;
+
+    public GameObject unitPrefab;
+    
     public void DrawCard()
     {
         Card randomCard = deck[Random.Range(0, deck.Count)];
@@ -19,7 +23,7 @@ public class GameManager : MonoBehaviour
             {
                 randomCard.gameObject.SetActive(true);
                 randomCard.transform.position = cardSlots[i].position;
-                randomCard.SetCardPostion(cardSlots[i].transform);
+                randomCard.SetCardPostion(cardSlots[i].transform, i);
                 avilableCardSlots[i] = false;
                 deck.Remove(randomCard);
                 return;
@@ -32,8 +36,13 @@ public class GameManager : MonoBehaviour
        
     }
 
-    public void PlayCard()
+    public void PlayCard(int slotNum, Transform dropZone)
     {
         Debug.Log("Played Card");
+        Debug.Log(avilableCardSlots[slotNum]);
+        avilableCardSlots[slotNum] = true;
+
+        GameObject unit = Instantiate(unitPrefab) as GameObject;
+        unit.transform.position = dropZone.position;
     }
 }
