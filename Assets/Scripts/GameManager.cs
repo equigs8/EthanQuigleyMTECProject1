@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using TMPro;
+using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public List<Card> deck = new List<Card>();
@@ -11,7 +12,27 @@ public class GameManager : MonoBehaviour
     public bool controllingUnit = false;
 
     public GameObject unitPrefab;
+
+    public float maxMana = 1f;
+    public float currentMana;
+    public float manaGain = 0.001f;
+    public TMP_Text manaText;
+
+    public void Start()
+    {
+        currentMana = maxMana;
+        manaText.text = currentMana.ToString();
+    }
     
+    void Update()
+    {
+        if (currentMana < maxMana)
+        {
+            currentMana += manaGain;
+            manaText.text = currentMana.ToString();
+        }
+    }
+
     public void DrawCard()
     {
         Card randomCard = deck[Random.Range(0, deck.Count)];
@@ -36,7 +57,7 @@ public class GameManager : MonoBehaviour
        
     }
 
-    public void PlayCard(int slotNum, Transform dropZone)
+    public void PlayCard(int slotNum, Transform dropZone, int manaCost)
     {
         Debug.Log("Played Card");
         Debug.Log(avilableCardSlots[slotNum]);
@@ -44,6 +65,7 @@ public class GameManager : MonoBehaviour
 
         GameObject unit = Instantiate(unitPrefab) as GameObject;
         unit.transform.position = dropZone.position;
+        currentMana -= manaCost;
     }
 
     public void ControllingUnit(bool isControllingUnit)
@@ -54,5 +76,13 @@ public class GameManager : MonoBehaviour
     public bool CheckIfControlling()
     {
         return controllingUnit;
+    }
+    public bool EnoughMana(int manaAmount)
+    {
+        if (manaAmount <= currentMana)
+        {
+            return true;
+        }
+        return false;
     }
 }

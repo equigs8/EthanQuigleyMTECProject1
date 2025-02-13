@@ -24,6 +24,7 @@ public class Card : MonoBehaviour
     private int _dissolveAmount = Shader.PropertyToID("_DissolveAmount");
 
     [SerializeField] private int slot;
+    public int manaCost;
 
     void Start()
     {
@@ -61,8 +62,16 @@ public class Card : MonoBehaviour
         if (isOverDropZone)
         {
             Debug.Log("OnMouseUp and isOverDropZone");
-            SetCardPostion(dropZone, slot);
-            StartCoroutine(Vanish());
+            
+            if (gameManager.EnoughMana(manaCost))
+            {
+                SetCardPostion(dropZone, slot);
+                StartCoroutine(Vanish());
+            }else
+            {
+                transform.position = cardPosition.position;
+            }
+            
         }
         isDragging = false;
         isOverDropZone = false; // Reset the flag
@@ -123,7 +132,7 @@ public class Card : MonoBehaviour
 
             yield return null;
         }
-        gameManager.PlayCard(slot,dropZone);
+        gameManager.PlayCard(slot,dropZone,manaCost);
         this.gameObject.SetActive(false);
     }
 }

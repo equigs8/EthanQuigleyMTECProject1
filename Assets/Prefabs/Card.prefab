@@ -109,6 +109,7 @@ MonoBehaviour:
   _dissolveTime: 0.75
   _spriteRenderer: {fileID: 8820183380938077117}
   slot: 0
+  manaCost: 50
 --- !u!61 &5811954502091208608
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -147,7 +148,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.96, y: 1.28}
+    oldSize: {x: 1.6, y: 2.1333334}
     newSize: {x: 0.64, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
