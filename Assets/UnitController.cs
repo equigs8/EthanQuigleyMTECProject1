@@ -14,6 +14,8 @@ public class UnitController : MonoBehaviour
 
     public GameObject gameManagerObject;
 
+    public GameObject target;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -49,7 +51,14 @@ public class UnitController : MonoBehaviour
         else
         {
             unitUI.SetActive(false);
+            RunAI();
         }
+    }
+
+    private void RunAI()
+    {
+        Vector2 moveDirection = new Vector2(0.5f,0).normalized;
+        rb.linearVelocity = moveDirection * moveSpeed;
     }
 
     private void OnMouseDown()

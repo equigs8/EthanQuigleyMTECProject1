@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class Card : MonoBehaviour
@@ -7,9 +8,13 @@ public class Card : MonoBehaviour
     public GameManager gameManager;
     [SerializeField] private bool isDragging = false;
     public Transform cardPosition;
-    public Transform cardSlot;
+    public Transform cardSlotTransform;
 
     public Transform dropZone;
+    public List<Transform> dropZones = new List<Transform>();
+    public GameObject[] dropZonesGameObject;
+
+    public Transform currentDropZoneTransform;
     private Vector3 offset;
     private Camera mainCamera;
 
@@ -30,6 +35,16 @@ public class Card : MonoBehaviour
     {
         mainCamera = Camera.main;
         _material = _spriteRenderer.material;
+
+        cardSlotTransform = this.GetComponent<Transform>();
+
+        dropZonesGameObject = GameObject.FindGameObjectsWithTag("TargetArea");
+
+        foreach (GameObject dropZone in dropZonesGameObject)
+        {
+            dropZones.Add(dropZone.GetComponent<Transform>());
+        }
+        
     }
 
     void OnMouseDown()
@@ -65,11 +80,11 @@ public class Card : MonoBehaviour
             
             if (gameManager.EnoughMana(manaCost))
             {
-                SetCardPostion(dropZone, slot);
+                SetCardPostion(currentDropZoneTransform, slot);
                 StartCoroutine(Vanish());
             }else
             {
-                transform.position = cardPosition.position;
+                SetCardPostion(currentDropZoneTransform, slot);
             }
             
         }
@@ -80,7 +95,12 @@ public class Card : MonoBehaviour
 
     void CheckForOverlap()
     {
-        Bounds bounds = dropZone.GetComponent<BoxCollider2D>().bounds;
+        foreach (Transform dropZoneTransform in dropZones)
+        {
+        
+        Debug.Log("dropZoneTransform " + dropZoneTransform);
+        
+        Bounds bounds = dropZoneTransform.GetComponent<BoxCollider2D>().bounds;
         Vector3 center = bounds.center;
         Vector3 size = bounds.size;
 
@@ -91,6 +111,7 @@ public class Card : MonoBehaviour
             {
                 Debug.Log(gameObject.name + " entered the drop zone.");
                 isOverDropZone = true; // Set the flag
+                currentDropZoneTransform = dropZoneTransform;
                 
                 // Perform actions when object *enters* the drop zone (e.g., change color)
                 // dropZone.GetComponent<SpriteRenderer>().color = Color.green; // Example
@@ -103,9 +124,11 @@ public class Card : MonoBehaviour
             {
                 Debug.Log(gameObject.name + " exited the drop zone.");
                 isOverDropZone = false; // Reset the flag
+                currentDropZoneTransform = cardSlotTransform;
                 // Perform actions when object *exits* the drop zone (e.g., reset color)
                 // dropZone.GetComponent<SpriteRenderer>().color = Color.white; // Example
             }
+        }
         }
     }
     public void SetCardPostion(Transform transform, int cardSlot)
