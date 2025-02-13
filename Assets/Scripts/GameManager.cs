@@ -45,4 +45,14 @@ public class GameManager : MonoBehaviour
         GameObject unit = Instantiate(unitPrefab) as GameObject;
         unit.transform.position = dropZone.position;
     }
+
+    public void ControllingUnit(bool isControllingUnit)
+    {
+        controllingUnit = isControllingUnit;
+    }
+
+    public bool CheckIfControlling()
+    {
+        return controllingUnit;
+    }
 }

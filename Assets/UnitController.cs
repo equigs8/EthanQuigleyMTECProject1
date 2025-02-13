@@ -10,9 +10,14 @@ public class UnitController : MonoBehaviour
 
     public GameObject unitUI;
 
+    private GameManager gameManager;
+
+    public GameObject gameManagerObject;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
         if (rb == null)
         {
@@ -49,11 +54,17 @@ public class UnitController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        isControlling = true;
+        if (!gameManager.CheckIfControlling())
+        {
+            isControlling = true;
+            gameManager.ControllingUnit(true);
+        }
+        
     }
 
     public void Leave()
     {
         isControlling = false;
+        gameManager.ControllingUnit(false);
     }
 }
