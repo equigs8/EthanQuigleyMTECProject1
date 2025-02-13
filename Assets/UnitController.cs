@@ -57,10 +57,9 @@ public class UnitController : MonoBehaviour
 
     private void RunAI()
     {
-        Vector2 moveDirection = new Vector2(0.5f,0).normalized;
+        Vector2 moveDirection = new Vector2(0.3f,0).normalized;
         rb.linearVelocity = moveDirection * moveSpeed;
     }
-
     private void OnMouseDown()
     {
         if (!gameManager.CheckIfControlling())
