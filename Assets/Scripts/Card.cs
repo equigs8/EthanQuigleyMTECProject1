@@ -18,7 +18,7 @@ public class Card : MonoBehaviour
     private Vector3 offset;
     private Camera mainCamera;
 
-    private bool isOverDropZone = false; // Flag to track if over drop zone
+    [SerializeField] private bool isOverDropZone = false; // Flag to track if over drop zone
 
 
     [SerializeField] private float _dissolveTime = 0.75f;
@@ -84,7 +84,7 @@ public class Card : MonoBehaviour
                 StartCoroutine(Vanish());
             }else
             {
-                SetCardPostion(currentDropZoneTransform, slot);
+                Debug.Log("Not Enough Mana to play card");
             }
             
         }
@@ -104,31 +104,27 @@ public class Card : MonoBehaviour
         Vector3 center = bounds.center;
         Vector3 size = bounds.size;
 
-        if (transform.position.x >= center.x - size.x / 2 && transform.position.x <= center.x + size.x / 2 &&
-            transform.position.y >= center.y - size.y / 2 && transform.position.y <= center.y + size.y / 2)
-        {
+            if (transform.position.x >= center.x - size.x / 2 && transform.position.x <= center.x + size.x / 2 &&
+                transform.position.y >= center.y - size.y / 2 && transform.position.y <= center.y + size.y / 2)
+            {
+              
+                    Debug.Log(gameObject.name + " entered the drop zone.");
+                    isOverDropZone = true; // Set the flag
+                    currentDropZoneTransform = dropZoneTransform;
+
+            }
+            
+            
             if (!isOverDropZone)
             {
-                Debug.Log(gameObject.name + " entered the drop zone.");
-                isOverDropZone = true; // Set the flag
-                currentDropZoneTransform = dropZoneTransform;
-                
-                // Perform actions when object *enters* the drop zone (e.g., change color)
-                // dropZone.GetComponent<SpriteRenderer>().color = Color.green; // Example
-            }
-            // Object is over the drop zone, allow free movement
-        }
-        else
-        {
-            if (isOverDropZone)
-            {
-                Debug.Log(gameObject.name + " exited the drop zone.");
+                Debug.Log(gameObject.name + " Not in the drop zone.");
                 isOverDropZone = false; // Reset the flag
                 currentDropZoneTransform = cardSlotTransform;
-                // Perform actions when object *exits* the drop zone (e.g., reset color)
-                // dropZone.GetComponent<SpriteRenderer>().color = Color.white; // Example
+                
+                    
             }
-        }
+            
+            
         }
     }
     public void SetCardPostion(Transform transform, int cardSlot)
@@ -144,6 +140,7 @@ public class Card : MonoBehaviour
 
     private IEnumerator Vanish()
     {
+        Debug.Log("Corutine runnning");
         float elapsedTime = 0f;
         while (elapsedTime < _dissolveTime)
         {
@@ -155,7 +152,7 @@ public class Card : MonoBehaviour
 
             yield return null;
         }
-        gameManager.PlayCard(slot,dropZone,manaCost);
-        this.gameObject.SetActive(false);
+        gameManager.PlayCard(slot,transform,manaCost);
+        Destroy(gameObject);
     }
 }

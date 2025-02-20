@@ -435,10 +435,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de29266754db9544295fb462839bc176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 2
   isControlling: 0
   unitUI: {fileID: 4424558106007237487}
   gameManagerObject: {fileID: 0}
+  target: {fileID: 0}
 --- !u!1 &4424558106007237487
 GameObject:
   m_ObjectHideFlags: 0

@@ -57,14 +57,14 @@ public class GameManager : MonoBehaviour
        
     }
 
-    public void PlayCard(int slotNum, Transform dropZone, int manaCost)
+    public void PlayCard(int slotNum, Transform transform, int manaCost)
     {
         Debug.Log("Played Card");
         Debug.Log(avilableCardSlots[slotNum]);
         avilableCardSlots[slotNum] = true;
 
         GameObject unit = Instantiate(unitPrefab) as GameObject;
-        unit.transform.position = dropZone.position;
+        unit.transform.position = transform.position;
         currentMana -= manaCost;
     }
 
