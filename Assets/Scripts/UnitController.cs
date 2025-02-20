@@ -19,6 +19,12 @@ public class UnitController : MonoBehaviour
 
     public List<Transform> castleTargetList = new List<Transform>();
 
+    public bool touchingEnemy;
+    public float timeToAttack = 10f;
+
+    public bool isAttacking;
+
+    public int attackingStrength;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -32,9 +38,9 @@ public class UnitController : MonoBehaviour
         {
             Debug.LogError("Rigidbody2D component not found on this GameObject!");
         }
-
+        touchingEnemy = false;
+        isAttacking = false;
         GetCastlesForList();
-
         
     }
 
@@ -77,11 +83,11 @@ public class UnitController : MonoBehaviour
         else
         {
             unitUI.SetActive(false);
-            RunAI();
+            ComputerControllsUnit();
         }
     }
 
-    private void RunAI()
+    private void ComputerControllsUnit()
     {
         FindClosestCastle();
         
@@ -89,9 +95,18 @@ public class UnitController : MonoBehaviour
         {
             Debug.LogWarning("castleTarget is Null");
         }
-        Vector3 direction = castleTarget.position - transform.position;
-        direction.Normalize();
-        transform.position += direction * moveSpeed * Time.deltaTime; 
+        
+        if (touchingEnemy && !isAttacking)
+        {
+            StartCoroutine(Attack());
+        }else if(!touchingEnemy)
+        {
+            Vector3 direction = castleTarget.position - transform.position;
+            direction.Normalize();
+            transform.position += direction * moveSpeed * Time.deltaTime;   
+        }
+
+        
         
     }
 
@@ -99,6 +114,12 @@ public class UnitController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log(gameObject.name + " Collided with " + collision.gameObject.name);
+        touchingEnemy = true;
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        touchingEnemy = false;
     }
 
     public void FindClosestCastle()
@@ -153,5 +174,18 @@ public class UnitController : MonoBehaviour
     {
         isControlling = false;
         gameManager.ControllingUnit(false);
+    }
+
+    private IEnumerator Attack()
+    {
+        isAttacking = true;
+        Debug.Log("Attack Coroutine started");
+        yield return new WaitForSeconds(timeToAttack);
+
+        Castle target = castleTarget.GetComponent<Castle>();
+        target.TakeDamage(attackingStrength);
+
+        Debug.Log("Attack Over");
+        isAttacking = false;
     }
 }

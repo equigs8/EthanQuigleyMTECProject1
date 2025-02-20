@@ -440,6 +440,10 @@ MonoBehaviour:
   unitUI: {fileID: 4424558106007237487}
   castleTarget: {fileID: 0}
   castleTargetList: []
+  touchingEnemy: 0
+  timeToAttack: 5
+  isAttacking: 0
+  attackingStrength: 5
 --- !u!1 &4424558106007237487
 GameObject:
   m_ObjectHideFlags: 0
