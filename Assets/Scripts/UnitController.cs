@@ -94,12 +94,13 @@ public class UnitController : MonoBehaviour
         if (castleTarget == null)
         {
             Debug.LogWarning("castleTarget is Null");
+            return;
         }
         
         if (touchingEnemy && !isAttacking)
         {
             StartCoroutine(Attack());
-        }else if(!touchingEnemy)
+        }else if(!touchingEnemy && castleTarget != null)
         {
             Vector3 direction = castleTarget.position - transform.position;
             direction.Normalize();
@@ -137,14 +138,16 @@ public class UnitController : MonoBehaviour
 
         foreach (Transform castle in castleTargetList)
         {
-            
-            float distance = Vector3.Distance(transform.position, castle.position);
-            //Debug.Log("Distance from " + gameObject.name + " to " + castle.name + " is " + distance);
-
-            if (distance < closestDistance)
+            if (castle != null)
             {
-                closestDistance = distance;
-                closestCastle = castle;
+                float distance = Vector3.Distance(transform.position, castle.position);
+                //Debug.Log("Distance from " + gameObject.name + " to " + castle.name + " is " + distance);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestCastle = castle;
+                }
             }
         }
 

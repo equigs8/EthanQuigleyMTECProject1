@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2895f3b21a0cf0243a327f73460a0c97
+guid: ec93a8faca929954e9b33b7bcbcf331f
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Map
+  - name: Castle
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -133,9 +133,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 612
-      height: 256
-    spriteID: 23c159a282a1d0246ad4ecee1a2a8ef4
+      width: 48
+      height: 80
+    spriteID: 9eb8b4eec3975c047a5101a819efcabb
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -147,21 +147,21 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 696030444
-    name: Map
+    guid: -545154654
+    name: Castle
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Map
+    - name: Castle
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
         x: 0
         y: 0
-        width: 612
-        height: 256
-      spriteId: 23c159a282a1d0246ad4ecee1a2a8ef4
+        width: 48
+        height: 80
+      spriteId: 9eb8b4eec3975c047a5101a819efcabb
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -180,5 +180,5 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 612, y: 256}
-  previousTextureSize: {x: 1024, y: 512}
+  canvasSize: {x: 48, y: 80}
+  previousTextureSize: {x: 64, y: 128}

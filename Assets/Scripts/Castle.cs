@@ -5,16 +5,20 @@ using System.Collections.Generic;
 public class Castle : MonoBehaviour
 {
 
-    public int maxHealth;
-    public int currentHealth;
+    public float maxHealth;
+    public float currentHealth;
+
+    public CastleHealthBar healthBar;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
     private void Update()
     {
+        healthBar.SetHealth(currentHealth);
         if (currentHealth <= 0)
         {
             DestroyCastle();
@@ -33,5 +37,9 @@ public class Castle : MonoBehaviour
     void DestroyCastle()
     {
         Destroy(gameObject);
+    }
+    public float GetMaxHealth()
+    {
+        return maxHealth;
     }
 }
