@@ -98,7 +98,7 @@ public class Card : MonoBehaviour
         foreach (Transform dropZoneTransform in dropZones)
         {
         
-        Debug.Log("dropZoneTransform " + dropZoneTransform);
+        //Debug.Log("dropZoneTransform " + dropZoneTransform);
         
         Bounds bounds = dropZoneTransform.GetComponent<BoxCollider2D>().bounds;
         Vector3 center = bounds.center;
@@ -108,7 +108,7 @@ public class Card : MonoBehaviour
                 transform.position.y >= center.y - size.y / 2 && transform.position.y <= center.y + size.y / 2)
             {
               
-                    Debug.Log(gameObject.name + " entered the drop zone.");
+                    //Debug.Log(gameObject.name + " entered the drop zone.");
                     isOverDropZone = true; // Set the flag
                     currentDropZoneTransform = dropZoneTransform;
 
@@ -117,7 +117,7 @@ public class Card : MonoBehaviour
             
             if (!isOverDropZone)
             {
-                Debug.Log(gameObject.name + " Not in the drop zone.");
+                //Debug.Log(gameObject.name + " Not in the drop zone.");
                 isOverDropZone = false; // Reset the flag
                 currentDropZoneTransform = cardSlotTransform;
                 
