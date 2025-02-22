@@ -12,15 +12,20 @@ public class GameManager : MonoBehaviour
     public bool controllingUnit = false;
 
     public GameObject unitPrefab;
+    public GameObject enemyUnitPrefab;
 
     public float maxMana = 1f;
     public float currentMana;
     public float manaGain = 0.001f;
     public TMP_Text manaText;
 
+    public float enemyCurrentMana;
+    
+
     public void Start()
     {
         currentMana = maxMana;
+        enemyCurrentMana = maxMana;
         manaText.text = currentMana.ToString();
     }
     
@@ -31,6 +36,15 @@ public class GameManager : MonoBehaviour
             currentMana += manaGain;
             manaText.text = currentMana.ToString();
         }
+        if (enemyCurrentMana < maxMana)
+        {
+            enemyCurrentMana += manaGain;
+        }
+    }
+
+    public float GetEnemyCurrentMana()
+    {
+        return enemyCurrentMana;
     }
 
     public void DrawCard()
@@ -67,6 +81,14 @@ public class GameManager : MonoBehaviour
         unit.transform.position = transform.position;
         currentMana -= manaCost;
     }
+
+    public void PlayEnemyCard(Transform transform, float manaCost)
+    {
+        GameObject enemyUnit = Instantiate(enemyUnitPrefab) as GameObject;
+        enemyUnit.transform.position = transform.position;
+        enemyCurrentMana -= manaCost;
+    }
+
 
     public void ControllingUnit(bool isControllingUnit)
     {

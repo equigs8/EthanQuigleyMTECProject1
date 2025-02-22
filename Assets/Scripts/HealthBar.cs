@@ -1,14 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CastleHealthBar : MonoBehaviour
+public class HealthBar : MonoBehaviour
 {
     public Slider slider;
 
-    void Start()
-    {
-       
-    }
     public void SetHealth(float healthAmount){
         slider.value = healthAmount;
     }

@@ -1,17 +1,12 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System;
+using UnityEngine;
 
-public class UnitController : MonoBehaviour
+public class EnemyUnitController : MonoBehaviour
 {
     public float moveSpeed = 5f; // Adjust this to control movement speed
 
     private Rigidbody2D rb;
-
-    public bool isControlling = false;
-
-    public GameObject unitUI;
 
     private GameManager gameManager;
 
@@ -19,7 +14,7 @@ public class UnitController : MonoBehaviour
 
     public List<Transform> castleTargetList = new List<Transform>();
 
-    public bool touchingEnemy;
+    public bool touchingPlayer;
     public float timeToAttack = 10f;
 
     public bool isAttacking;
@@ -43,24 +38,24 @@ public class UnitController : MonoBehaviour
             Debug.LogError("Rigidbody2D component not found on this GameObject!");
         }
 
-
+        currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
         healthBar.SetHealth(currentHealth);
-        touchingEnemy = false;
+        touchingPlayer = false;
         isAttacking = false;
-        Debug.Log("Before GetCastleForList()");
+        //Debug.Log("Before GetCastleForList()");
         GetCastlesForList();
-        Debug.Log("After GetCastleForList()");
+        //Debug.Log("After GetCastleForList()");
 
     }
 
     private void GetCastlesForList()
     {
-        Debug.Log("Inside GetCastleForList()");
+        //Debug.Log("Inside GetCastleForList()");
 
-        GameObject[] gameObjectHolder = GameObject.FindGameObjectsWithTag("Castle");
+        GameObject[] gameObjectHolder = GameObject.FindGameObjectsWithTag("Player");
 
-        Debug.Log(gameObjectHolder);
+        //Debug.Log(gameObjectHolder);
 
         foreach (GameObject castle in gameObjectHolder)
         {
@@ -71,66 +66,39 @@ public class UnitController : MonoBehaviour
 
     void Update()
     {
-        if (isControlling)
-        {
-            unitUI.SetActive(true);
-
-            // Get input from WASD keys
-            float horizontalInput = Input.GetAxisRaw("Horizontal"); // -1 for Left, 0 for None, 1 for Right
-            float verticalInput = Input.GetAxisRaw("Vertical");   // -1 for Down, 0 for None, 1 for Up
-
-            // Calculate movement direction
-            Vector2 moveDirection = new Vector2(horizontalInput, verticalInput).normalized; // .normalized makes diagonal movement not faster
-
-            // Apply movement using Rigidbody2D for physics-based movement
-            rb.linearVelocity = moveDirection * moveSpeed;
-
-
-            //  Alternative using transform.position (less realistic physics, but can be useful)
-            //  Vector2 moveAmount = moveDirection * moveSpeed * Time.deltaTime; // Time.deltaTime makes movement frame-rate independent
-            //  transform.position += new Vector3(moveAmount.x, moveAmount.y, 0f); // Assuming 2D, z is 0
-        }
-        else
-        {
-            unitUI.SetActive(false);
-            ComputerControllsUnit();
-        }
-    }
-
-    private void ComputerControllsUnit()
-    {
         FindClosestCastle();
-        
+
         if (castleTarget == null)
         {
             Debug.LogWarning("castleTarget is Null");
             return;
         }
-        
-        if (touchingEnemy && !isAttacking)
+
+        if (touchingPlayer && !isAttacking)
         {
             StartCoroutine(Attack());
-        }else if(!touchingEnemy && castleTarget != null)
+        }
+        else if (!touchingPlayer && castleTarget != null)
         {
             Vector3 direction = castleTarget.position - transform.position;
             direction.Normalize();
-            transform.position += direction * moveSpeed * Time.deltaTime;   
+            transform.position += direction * moveSpeed * Time.deltaTime;
         }
 
-        
-        
+
+
     }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log(gameObject.name + " Collided with " + collision.gameObject.name);
-        touchingEnemy = true;
+        touchingPlayer = true;
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        touchingEnemy = false;
+        touchingPlayer = false;
     }
 
     public void FindClosestCastle()
@@ -173,21 +141,6 @@ public class UnitController : MonoBehaviour
         }
     }
 
-    private void OnMouseDown()
-    {
-        if (!gameManager.CheckIfControlling())
-        {
-            isControlling = true;
-            gameManager.ControllingUnit(true);
-        }
-        
-    }
-
-    public void Leave()
-    {
-        isControlling = false;
-        gameManager.ControllingUnit(false);
-    }
 
     private IEnumerator Attack()
     {

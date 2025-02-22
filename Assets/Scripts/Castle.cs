@@ -8,7 +8,7 @@ public class Castle : MonoBehaviour
     public float maxHealth;
     public float currentHealth;
 
-    public CastleHealthBar healthBar;
+    public HealthBar healthBar;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

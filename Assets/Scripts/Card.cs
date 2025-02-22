@@ -47,6 +47,11 @@ public class Card : MonoBehaviour
         
     }
 
+    public int getManaCost()
+    {
+        return manaCost;
+    }
+
     void OnMouseDown()
     {
         isDragging = true;

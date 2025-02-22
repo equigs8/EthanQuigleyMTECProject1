@@ -85,7 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7992361460795357715}
   - component: {fileID: 5747823580613002297}
-  - component: {fileID: 6399205733112105117}
+  - component: {fileID: 781149943658923342}
   m_Layer: 5
   m_Name: Health Bar
   m_TagString: Untagged
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6399205733112105117
+--- !u!114 &781149943658923342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -439,7 +439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 0
-  healthBar: {fileID: 6399205733112105117}
+  healthBar: {fileID: 781149943658923342}
 --- !u!1 &7766673146026075938
 GameObject:
   m_ObjectHideFlags: 0
