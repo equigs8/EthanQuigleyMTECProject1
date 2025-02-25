@@ -49,7 +49,7 @@ public class UnitController : MonoBehaviour
         touchingEnemy = false;
         isAttacking = false;
         Debug.Log("Before GetCastleForList()");
-        GetCastlesForList();
+        //GetCastlesForList();
         Debug.Log("After GetCastleForList()");
 
     }
@@ -59,6 +59,8 @@ public class UnitController : MonoBehaviour
         Debug.Log("Inside GetCastleForList()");
 
         GameObject[] gameObjectHolder = GameObject.FindGameObjectsWithTag("Castle");
+        GameObject[] enemyUnits = GameObject.FindGameObjectsWithTag("EnemyUnit");
+
 
         Debug.Log(gameObjectHolder);
 
@@ -66,11 +68,18 @@ public class UnitController : MonoBehaviour
         {
             castleTargetList.Add(castle.GetComponent<Transform>());
         }
+        foreach (GameObject enemyUnit in enemyUnits)
+        {
+            castleTargetList.Add(enemyUnit.GetComponent<Transform>());
+        }
 
     }
 
     void Update()
     {
+        castleTargetList = new List<Transform>();
+        GetCastlesForList();
+
         if (isControlling)
         {
             unitUI.SetActive(true);
@@ -94,6 +103,20 @@ public class UnitController : MonoBehaviour
         {
             unitUI.SetActive(false);
             ComputerControllsUnit();
+        }
+    }
+    public void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
+        UpdateHealth();
+    }
+    void UpdateHealth()
+    {
+        healthBar.SetHealth(currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -195,9 +218,17 @@ public class UnitController : MonoBehaviour
         Debug.Log("Attack Coroutine started");
         yield return new WaitForSeconds(timeToAttack);
 
-        Castle target = castleTarget.GetComponent<Castle>();
-        target.TakeDamage(attackingStrength);
-
+        if (castleTarget.tag == "Castle")
+        {
+            Castle target = castleTarget.GetComponent<Castle>();
+            target.TakeDamage(attackingStrength);
+            
+        }else
+        {
+            EnemyUnitController target = castleTarget.GetComponent<EnemyUnitController>();
+            target.TakeDamage(attackingStrength);
+        }
+        
         Debug.Log("Attack Over");
         isAttacking = false;
     }

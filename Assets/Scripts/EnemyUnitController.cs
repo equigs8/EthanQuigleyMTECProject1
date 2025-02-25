@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyUnitController : MonoBehaviour
@@ -51,6 +52,7 @@ public class EnemyUnitController : MonoBehaviour
 
     private void GetCastlesForList()
     {
+        castleTargetList = new List<Transform>();
         //Debug.Log("Inside GetCastleForList()");
 
         GameObject[] gameObjectHolder = GameObject.FindGameObjectsWithTag("Player");
@@ -66,6 +68,7 @@ public class EnemyUnitController : MonoBehaviour
 
     void Update()
     {
+        
         FindClosestCastle();
 
         if (castleTarget == null)
@@ -141,15 +144,32 @@ public class EnemyUnitController : MonoBehaviour
         }
     }
 
+    public void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
+        UpdateHealth();
+    }
+
+    void UpdateHealth()
+    {
+        healthBar.SetHealth(currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private IEnumerator Attack()
     {
         isAttacking = true;
         Debug.Log("Attack Coroutine started");
         yield return new WaitForSeconds(timeToAttack);
-
-        Castle target = castleTarget.GetComponent<Castle>();
-        target.TakeDamage(attackingStrength);
+        if (gameObject != null)
+        {
+            UnitController target = castleTarget.GetComponent<UnitController>();
+            target.TakeDamage(attackingStrength);
+        }
 
         Debug.Log("Attack Over");
         isAttacking = false;
