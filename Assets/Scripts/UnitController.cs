@@ -42,7 +42,7 @@ public class UnitController : MonoBehaviour
         {
             Debug.LogError("Rigidbody2D component not found on this GameObject!");
         }
-
+        currentHealth = maxHealth;
 
         healthBar.SetMaxHealth(maxHealth);
         healthBar.SetHealth(currentHealth);
