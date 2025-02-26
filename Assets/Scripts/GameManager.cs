@@ -21,9 +21,46 @@ public class GameManager : MonoBehaviour
 
     public float enemyCurrentMana;
     
+    public GameObject[] playerCastles;
+    public GameObject[] enemyCastles;
+    public bool isWinner;
+    public string winnerName;
+
+
+    public void checkIfWinner()
+    {
+        foreach (GameObject gameObjectCastle in playerCastles)
+        {
+            if(gameObjectCastle.GetComponent<Castle>().GetIsAlive())
+            {
+                return;
+            }else
+            {
+                isWinner = true;
+                winnerName = "Enemy";
+            }
+        }
+        foreach (GameObject gameObjectEnemyCastle in enemyCastles)
+        {
+            if(gameObjectEnemyCastle.GetComponent<Castle>().GetIsAlive())
+            {
+                return;
+            }else
+            {
+                isWinner = true;
+                winnerName = "Player";
+            }
+        }
+    }
+
+    public float checkCastleHealth(Castle castle)
+    {
+        return castle.GetCurrentHealth();
+    }
 
     public void Start()
     {
+        isWinner = false;
         currentMana = maxMana;
         enemyCurrentMana = maxMana;
         manaText.text = currentMana.ToString();
@@ -31,17 +68,25 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
-        if (currentMana < maxMana)
+        if (!isWinner)
         {
-            currentMana += manaGain;
-            manaText.text = currentMana.ToString();
+            if (currentMana < maxMana)
+            {
+                currentMana += manaGain;
+                manaText.text = currentMana.ToString();
+            }
+            if (enemyCurrentMana < maxMana)
+            {
+                enemyCurrentMana += manaGain;
+            } 
         }
-        if (enemyCurrentMana < maxMana)
-        {
-            enemyCurrentMana += manaGain;
-        }
+        Winner();
     }
 
+    void Winner()
+    {
+        Debug.Log("The Winner is " + winnerName);
+    }
     public float GetEnemyCurrentMana()
     {
         return enemyCurrentMana;

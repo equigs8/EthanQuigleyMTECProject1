@@ -9,17 +9,29 @@ public class Castle : MonoBehaviour
     public float currentHealth;
 
     public HealthBar healthBar;
+    public bool isAlive;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public bool GetIsAlive()
+    {
+        return isAlive;    
+    }
+    
     void Start()
     {
         currentHealth = maxHealth;
+        isAlive = true;
         healthBar.SetMaxHealth(maxHealth);
     }
 
     private void Update()
     {
         healthBar.SetHealth(currentHealth);
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && isAlive)
         {
             DestroyCastle();
         }
@@ -36,6 +48,7 @@ public class Castle : MonoBehaviour
     }
     void DestroyCastle()
     {
+        isAlive = false;
         Destroy(gameObject);
     }
     public float GetMaxHealth()
