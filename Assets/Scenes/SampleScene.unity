@@ -1497,7 +1497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d35210ebc2629e4bb32292866dfe0ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deck:
+  emptyCards:
   - {fileID: 1956971085}
   - {fileID: 2080559030}
   - {fileID: 1482591847}
@@ -1508,6 +1508,7 @@ MonoBehaviour:
   - {fileID: 698480209}
   - {fileID: 870160569}
   - {fileID: 400770190}
+  deck: []
   cardSlots:
   - {fileID: 1054707490}
   - {fileID: 1124919131}
@@ -1523,6 +1524,22 @@ MonoBehaviour:
   manaGain: 0.01
   manaText: {fileID: 1524139355}
   enemyCurrentMana: 0
+  playerCastles: []
+  enemyCastles: []
+  isWinner: 0
+  winnerName: 
+  Units:
+  - {fileID: 11400000, guid: 393296f794e2892468b1f16d750a2754, type: 2}
+  - {fileID: 11400000, guid: 1913dd0edaa89e447a8c089c67aa6b86, type: 2}
+  - {fileID: 11400000, guid: 393296f794e2892468b1f16d750a2754, type: 2}
+  - {fileID: 11400000, guid: 393296f794e2892468b1f16d750a2754, type: 2}
+  - {fileID: 11400000, guid: 1913dd0edaa89e447a8c089c67aa6b86, type: 2}
+  - {fileID: 11400000, guid: 393296f794e2892468b1f16d750a2754, type: 2}
+  - {fileID: 11400000, guid: 1913dd0edaa89e447a8c089c67aa6b86, type: 2}
+  - {fileID: 11400000, guid: 393296f794e2892468b1f16d750a2754, type: 2}
+  - {fileID: 11400000, guid: 1913dd0edaa89e447a8c089c67aa6b86, type: 2}
+  - {fileID: 11400000, guid: 393296f794e2892468b1f16d750a2754, type: 2}
+  playerHand: []
 --- !u!4 &1104054219
 Transform:
   m_ObjectHideFlags: 0

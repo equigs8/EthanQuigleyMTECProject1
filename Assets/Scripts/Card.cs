@@ -31,6 +31,17 @@ public class Card : MonoBehaviour
     [SerializeField] private int slot;
     public int manaCost;
 
+    public UnitType unitType;
+
+    public string name;
+    
+
+
+    private void OnEnable()
+    {
+        name = unitType.name;
+        manaCost = unitType.manaCost;
+    }
     void Start()
     {
         mainCamera = Camera.main;
@@ -98,6 +109,11 @@ public class Card : MonoBehaviour
         transform.position = cardPosition.position;
     }
 
+    internal void SetUnitType(UnitType unit)
+    {
+        unitType = unit;
+    }
+
     void CheckForOverlap()
     {
         foreach (Transform dropZoneTransform in dropZones)
@@ -157,7 +173,7 @@ public class Card : MonoBehaviour
 
             yield return null;
         }
-        gameManager.PlayCard(slot,transform,manaCost);
+        gameManager.PlayCard(slot,transform,manaCost,unitType);
         Destroy(gameObject);
     }
 }

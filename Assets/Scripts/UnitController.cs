@@ -29,6 +29,8 @@ public class UnitController : MonoBehaviour
     public HealthBar healthBar;
     public int maxHealth;
     public int currentHealth;
+
+    public UnitType unitType;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -144,6 +146,10 @@ public class UnitController : MonoBehaviour
         
     }
 
+    internal void SetUnitType(UnitType unitType)
+    {
+        throw new NotImplementedException();
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
+    public List<Card> emptyCards = new List<Card>();
     public List<Card> deck = new List<Card>();
     public Transform[] cardSlots;
     public bool[] avilableCardSlots;
@@ -26,6 +27,9 @@ public class GameManager : MonoBehaviour
     public bool isWinner;
     public string winnerName;
 
+
+    public UnitType[] Units;
+    public List<Card> playerHand = new List<Card>();
 
     public void checkIfWinner()
     {
@@ -64,8 +68,23 @@ public class GameManager : MonoBehaviour
         currentMana = maxMana;
         enemyCurrentMana = maxMana;
         manaText.text = currentMana.ToString();
+
+        InitializeDeck(); 
     }
-    
+
+    private void InitializeDeck()
+    {
+        int counter = 0;
+        foreach (UnitType unit in Units)
+        {
+            Debug.Log(unit);
+
+            emptyCards[counter].SetUnitType(unit);
+
+            counter += 1;
+        }
+    }
+
     void Update()
     {
         if (!isWinner)
@@ -101,6 +120,7 @@ public class GameManager : MonoBehaviour
             Debug.Log(i + " " + avilableCardSlots[i]);
             if (avilableCardSlots[i] == true)
             {
+                playerHand.Add(randomCard);
                 randomCard.gameObject.SetActive(true);
                 randomCard.transform.position = cardSlots[i].position;
                 randomCard.SetCardPostion(cardSlots[i].transform, i);
@@ -116,13 +136,14 @@ public class GameManager : MonoBehaviour
        
     }
 
-    public void PlayCard(int slotNum, Transform transform, int manaCost)
+    public void PlayCard(int slotNum, Transform transform, int manaCost, UnitType unitType)
     {
         Debug.Log("Played Card");
         Debug.Log(avilableCardSlots[slotNum]);
         avilableCardSlots[slotNum] = true;
 
         GameObject unit = Instantiate(unitPrefab) as GameObject;
+        unit.GetComponent<UnitController>().SetUnitType(unitType);
         unit.transform.position = transform.position;
         currentMana -= manaCost;
     }
