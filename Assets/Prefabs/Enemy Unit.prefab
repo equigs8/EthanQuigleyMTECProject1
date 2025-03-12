@@ -283,7 +283,7 @@ MonoBehaviour:
   touchingPlayer: 0
   timeToAttack: 10
   isAttacking: 0
-  attackingStrength: 0
+  attackingStrength: 5
   healthBar: {fileID: 8634511672431740083}
   maxHealth: 10
   currentHealth: 0

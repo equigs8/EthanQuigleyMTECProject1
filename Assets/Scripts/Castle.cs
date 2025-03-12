@@ -4,11 +4,12 @@ using System.Collections.Generic;
 
 public class Castle : MonoBehaviour
 {
-
+    public string owner;
     public float maxHealth;
     public float currentHealth;
 
     public HealthBar healthBar;
+    public GameManager gameManager;
     public bool isAlive;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public float GetCurrentHealth()
@@ -49,6 +50,8 @@ public class Castle : MonoBehaviour
     void DestroyCastle()
     {
         isAlive = false;
+        gameManager = GameObject.FindFirstObjectByType<GameManager>();
+        gameManager.removeCastle(owner, gameObject);
         Destroy(gameObject);
     }
     public float GetMaxHealth()

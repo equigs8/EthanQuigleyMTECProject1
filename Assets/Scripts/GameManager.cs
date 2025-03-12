@@ -22,8 +22,8 @@ public class GameManager : MonoBehaviour
 
     public float enemyCurrentMana;
     
-    public GameObject[] playerCastles;
-    public GameObject[] enemyCastles;
+    public List<GameObject> playerCastles = new List<GameObject>();
+    public List<GameObject> enemyCastles = new List<GameObject>();
     public bool isWinner;
     public string winnerName;
 
@@ -33,28 +33,29 @@ public class GameManager : MonoBehaviour
 
     public void checkIfWinner()
     {
-        foreach (GameObject gameObjectCastle in playerCastles)
+        if (enemyCastles.Count == 0)
         {
-            if(gameObjectCastle.GetComponent<Castle>().GetIsAlive())
-            {
-                return;
-            }else
-            {
-                isWinner = true;
-                winnerName = "Enemy";
-            }
+            isWinner = true;
+            winnerName = "Player";
         }
-        foreach (GameObject gameObjectEnemyCastle in enemyCastles)
+        else if (playerCastles.Count == 0)
         {
-            if(gameObjectEnemyCastle.GetComponent<Castle>().GetIsAlive())
-            {
-                return;
-            }else
-            {
-                isWinner = true;
-                winnerName = "Player";
-            }
+            isWinner = true;
+            winnerName = "Enemy";
         }
+    }
+
+    internal void removeCastle(string owner, GameObject castle)
+    {
+        if (owner == "player")
+        {
+            playerCastles.Remove(castle);
+        }
+        else
+        {
+            enemyCastles.Remove(castle);
+        }
+        
     }
 
     public float checkCastleHealth(Castle castle)
@@ -97,9 +98,14 @@ public class GameManager : MonoBehaviour
             if (enemyCurrentMana < maxMana)
             {
                 enemyCurrentMana += manaGain;
-            } 
+            }
+            checkIfWinner();
         }
-        Winner();
+        else if (isWinner)
+        {
+            Winner();
+        }
+        
     }
 
     void Winner()
@@ -113,7 +119,7 @@ public class GameManager : MonoBehaviour
 
     public void DrawCard()
     {
-        Card randomCard = deck[Random.Range(0, deck.Count)];
+        Card randomCard = emptyCards[Random.Range(0, emptyCards.Count)];
 
         for (int i = 0; i < avilableCardSlots.Length; i++)
         {
@@ -121,11 +127,12 @@ public class GameManager : MonoBehaviour
             if (avilableCardSlots[i] == true)
             {
                 playerHand.Add(randomCard);
+                emptyCards.Remove(randomCard);
                 randomCard.gameObject.SetActive(true);
                 randomCard.transform.position = cardSlots[i].position;
                 randomCard.SetCardPostion(cardSlots[i].transform, i);
                 avilableCardSlots[i] = false;
-                deck.Remove(randomCard);
+                //deck.Remove(randomCard);
                 return;
             }
         }

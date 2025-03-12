@@ -41,6 +41,8 @@ public class Card : MonoBehaviour
     {
         name = unitType.name;
         manaCost = unitType.manaCost;
+
+        gameObject.GetComponent<SpriteRenderer>().sprite = unitType.cardSprite;
     }
     void Start()
     {

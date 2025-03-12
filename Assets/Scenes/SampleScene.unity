@@ -287,6 +287,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7679248858485167540, guid: 26076842781dd31439f76ea85c197f3a, type: 3}
   m_PrefabInstance: {fileID: 1573181307}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &430066384 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6608018350866149382, guid: 8b49742d2e4019b459080a60dc63d171, type: 3}
+  m_PrefabInstance: {fileID: 851644898}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &438829860
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,7 +575,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1197,6 +1202,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1697862928086243831, guid: 8b49742d2e4019b459080a60dc63d171, type: 3}
+      propertyPath: owner
+      value: enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 2903252259565311378, guid: 8b49742d2e4019b459080a60dc63d171, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1468,6 +1477,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 159085398}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1079402936 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6608018350866149382, guid: 8b49742d2e4019b459080a60dc63d171, type: 3}
+  m_PrefabInstance: {fileID: 1899437070}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1104054217
 GameObject:
   m_ObjectHideFlags: 0
@@ -1524,8 +1538,12 @@ MonoBehaviour:
   manaGain: 0.01
   manaText: {fileID: 1524139355}
   enemyCurrentMana: 0
-  playerCastles: []
-  enemyCastles: []
+  playerCastles:
+  - {fileID: 491821924}
+  enemyCastles:
+  - {fileID: 1359160966}
+  - {fileID: 430066384}
+  - {fileID: 1079402936}
   isWinner: 0
   winnerName: 
   Units:
@@ -1892,6 +1910,11 @@ Transform:
   - {fileID: 1226894835}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1359160966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6608018350866149382, guid: 8b49742d2e4019b459080a60dc63d171, type: 3}
+  m_PrefabInstance: {fileID: 9053417401042283943}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1369940920
 GameObject:
   m_ObjectHideFlags: 0
@@ -2785,6 +2808,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1697862928086243831, guid: 8b49742d2e4019b459080a60dc63d171, type: 3}
+      propertyPath: owner
+      value: enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 2903252259565311378, guid: 8b49742d2e4019b459080a60dc63d171, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3470,6 +3497,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1697862928086243831, guid: 8b49742d2e4019b459080a60dc63d171, type: 3}
+      propertyPath: owner
+      value: enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 2903252259565311378, guid: 8b49742d2e4019b459080a60dc63d171, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

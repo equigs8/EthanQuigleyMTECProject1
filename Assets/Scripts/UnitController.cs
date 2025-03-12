@@ -146,9 +146,14 @@ public class UnitController : MonoBehaviour
         
     }
 
-    internal void SetUnitType(UnitType unitType)
+    internal void SetUnitType(UnitType type)
     {
-        throw new NotImplementedException();
+        unitType = type;
+        name = type.name;
+        gameObject.GetComponent<SpriteRenderer>().sprite = type.unitSprite;
+        attackingStrength = type.attack;
+        maxHealth = type.health;
+        currentHealth = maxHealth;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
