@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using TMPro;
 
 public class Card : MonoBehaviour
 {
@@ -34,9 +35,11 @@ public class Card : MonoBehaviour
     public UnitType unitType;
 
     public string name;
+    public GameObject manaCostUI;
+    public TMP_Text manaCostUIText;
     
 
-
+        
     private void OnEnable()
     {
         name = unitType.name;
@@ -60,7 +63,7 @@ public class Card : MonoBehaviour
         
     }
 
-    public int getManaCost()
+    public int GetManaCost()
     {
         return manaCost;
     }
@@ -76,6 +79,18 @@ public class Card : MonoBehaviour
     {
         if (isDragging)
         {
+            // TODO: Display mana cost
+
+
+            foreach (GameObject dropZone in dropZonesGameObject)
+            {
+                SpriteRenderer sp = dropZone.GetComponent<SpriteRenderer>();
+                sp.color = new Color(1f, 1f, 1f, .5f);
+            }
+
+            manaCostUI.SetActive(true);
+            manaCostUIText.text = manaCost.ToString();
+
             Vector3 newPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition) + offset;
             newPosition.z = 0;
             transform.position = newPosition;
@@ -109,6 +124,11 @@ public class Card : MonoBehaviour
         isDragging = false;
         isOverDropZone = false; // Reset the flag
         transform.position = cardPosition.position;
+        foreach (GameObject dropZone in dropZonesGameObject)
+        {
+            SpriteRenderer sp = dropZone.GetComponent<SpriteRenderer>();
+            sp.color = new Color(1f, 1f, 1f, 0f);
+        }
     }
 
     internal void SetUnitType(UnitType unit)
