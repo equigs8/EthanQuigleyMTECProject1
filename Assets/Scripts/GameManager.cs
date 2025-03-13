@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         isWinner = false;
         currentMana = maxMana;
         enemyCurrentMana = maxMana;
-        manaText.text = currentMana.ToString();
+        manaText.text = Mathf.Round(currentMana).ToString();
 
         InitializeDeck(); 
     }
@@ -93,12 +93,18 @@ public class GameManager : MonoBehaviour
             if (currentMana < maxMana)
             {
                 currentMana += manaGain;
-                manaText.text = currentMana.ToString();
+                manaText.text = Mathf.Round(currentMana).ToString();
             }
             if (enemyCurrentMana < maxMana)
             {
                 enemyCurrentMana += manaGain;
             }
+            
+            if (playerHand.Count < 5)
+            {
+                DrawCard();
+            }
+
             checkIfWinner();
         }
         else if (isWinner)
@@ -126,7 +132,7 @@ public class GameManager : MonoBehaviour
             Debug.Log(i + " " + avilableCardSlots[i]);
             if (avilableCardSlots[i] == true)
             {
-                playerHand.Add(randomCard);
+                playerHand.Insert(i, randomCard);
                 emptyCards.Remove(randomCard);
                 randomCard.gameObject.SetActive(true);
                 randomCard.transform.position = cardSlots[i].position;
@@ -149,6 +155,18 @@ public class GameManager : MonoBehaviour
         Debug.Log(avilableCardSlots[slotNum]);
         avilableCardSlots[slotNum] = true;
 
+        playerHand.RemoveAt(slotNum);
+
+        //List<Card> tempHand = new List<Card>();
+        //foreach (Card card in playerHand)
+        //{
+        //    tempHand.Add(card);
+        //    Debug.Log("added to Temp Hand");
+        //}
+        //playerHand = tempHand;
+
+
+        
         GameObject unit = Instantiate(unitPrefab) as GameObject;
         unit.GetComponent<UnitController>().SetUnitType(unitType);
         unit.transform.position = transform.position;
@@ -157,6 +175,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayEnemyCard(Transform transform, float manaCost)
     {
+        
         GameObject enemyUnit = Instantiate(enemyUnitPrefab) as GameObject;
         enemyUnit.transform.position = transform.position;
         enemyCurrentMana -= manaCost;
