@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     
 
     public GameObject enemyUnitPrefab;
+    public GameObject enemyCardPrefab;
 
     public float maxMana = 1f;
     public float currentMana;
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseMenu;
     public bool gamePaused;
+    public Transform cardStartPosition;
 
     public void checkIfWinner()
     {
@@ -110,7 +112,8 @@ public class GameManager : MonoBehaviour
             
         }
         if (!isWinner && !gamePaused)
-        {
+        { 
+            
             if (currentMana < maxMana)
             {
                 currentMana += manaGain;
@@ -212,9 +215,10 @@ public class GameManager : MonoBehaviour
 
     public void PlayEnemyCard(Transform transform, float manaCost)
     {
-        
         GameObject enemyUnit = Instantiate(enemyUnitPrefab) as GameObject;
         enemyUnit.transform.position = transform.position;
+        //GameObject enemyCard = Instantiate(enemyCardPrefab,cardStartPosition.position,Quaternion.identity) as GameObject;
+        //enemyCard.GetComponent<EnemyCard>().SetDestination(transform);
         enemyCurrentMana -= manaCost;
     }
 

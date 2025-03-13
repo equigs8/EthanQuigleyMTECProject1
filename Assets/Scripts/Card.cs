@@ -63,6 +63,11 @@ public class Card : MonoBehaviour
         
     }
 
+    private void Update()
+    {
+        CardColorChange();
+    }
+
     public int GetManaCost()
     {
         return manaCost;
@@ -73,6 +78,20 @@ public class Card : MonoBehaviour
         isDragging = true;
         offset = transform.position - mainCamera.ScreenToWorldPoint(Input.mousePosition);
         offset.z = 0;
+        
+    }
+
+    private void CardColorChange()
+    {
+        if (!gameManager.EnoughMana(manaCost))
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+            Debug.Log("Not Enough Mana to play card");
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+        }
     }
 
     void OnMouseDrag()
@@ -84,6 +103,7 @@ public class Card : MonoBehaviour
 
             foreach (GameObject dropZone in dropZonesGameObject)
             {
+                Debug.Log(dropZone.name + " is about to be reviled");
                 SpriteRenderer sp = dropZone.GetComponent<SpriteRenderer>();
                 sp.color = new Color(1f, 1f, 1f, .5f);
             }
@@ -116,7 +136,7 @@ public class Card : MonoBehaviour
                 SetCardPostion(currentDropZoneTransform, slot);
                 StartCoroutine(Vanish());
             }else
-            {
+            { 
                 Debug.Log("Not Enough Mana to play card");
             }
             
@@ -125,6 +145,7 @@ public class Card : MonoBehaviour
         isDragging = false;
         isOverDropZone = false; // Reset the flag
         transform.position = cardPosition.position;
+        Debug.Log("Mouse Up");
         foreach (GameObject dropZone in dropZonesGameObject)
         {
             SpriteRenderer sp = dropZone.GetComponent<SpriteRenderer>();

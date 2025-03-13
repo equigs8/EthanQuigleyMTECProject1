@@ -496,9 +496,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e2f4322b98f6c74aa178866b61c7556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 1104054218}
   winnerText: 
-  winnerScene: 
+  winnerScene: EndScene
+  winnerTextUI: {fileID: 0}
 --- !u!4 &388330829
 Transform:
   m_ObjectHideFlags: 0
@@ -508,7 +509,7 @@ Transform:
   m_GameObject: {fileID: 388330827}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1553.4303, y: 613.8436, z: -7.8069687}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1057,7 +1058,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
@@ -1466,7 +1467,7 @@ Transform:
   m_GameObject: {fileID: 714089508}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.0399344, y: -0.63104975, z: 0.030121107}
+  m_LocalPosition: {x: 3.72, y: 9.58, z: 0.030121107}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2240,6 +2241,7 @@ MonoBehaviour:
   controllingUnit: 0
   unitPrefab: {fileID: 2546960472823374130, guid: eb36f75713106b8419f8309cd9480137, type: 3}
   enemyUnitPrefab: {fileID: 2546960472823374130, guid: b8f6b46184013674bb3e4fca7d8cd4ab, type: 3}
+  enemyCardPrefab: {fileID: 7092320009629920111, guid: 2bd91ce717806bc4cbb2750dbc40fe22, type: 3}
   maxMana: 100
   currentMana: 0
   manaGain: 0.01
@@ -2269,6 +2271,7 @@ MonoBehaviour:
   playerHand: []
   pauseMenu: {fileID: 1389262486}
   gamePaused: 0
+  cardStartPosition: {fileID: 2042710391}
 --- !u!4 &1104054219
 Transform:
   m_ObjectHideFlags: 0
@@ -2525,7 +2528,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
@@ -2767,7 +2770,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1346374387
 Transform:
   m_ObjectHideFlags: 0
@@ -4627,7 +4630,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2020841014}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 388330828}
+        m_TargetAssemblyTypeName: MySceneManager, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2020841014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4799,6 +4814,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2023566134}
   m_CullTransparentMesh: 1
+--- !u!1 &2042710390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2042710391}
+  m_Layer: 0
+  m_Name: EnemyPlayPositionStart
+  m_TagString: EnemyPlayPosition
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2042710391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042710390}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.86, y: 9.29, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2053718597
 GameObject:
   m_ObjectHideFlags: 0
@@ -5203,6 +5249,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
+  - {fileID: 388330829}
   - {fileID: 1104054219}
   - {fileID: 576585950}
   - {fileID: 159085398}
@@ -5219,4 +5266,4 @@ SceneRoots:
   - {fileID: 1346374387}
   - {fileID: 2070048678}
   - {fileID: 100993352}
-  - {fileID: 388330829}
+  - {fileID: 2042710391}
