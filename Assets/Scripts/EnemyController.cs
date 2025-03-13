@@ -50,13 +50,13 @@ public class EnemyController : MonoBehaviour
         if (!pickedCardToPlay)
         {
             PickCardToPlay();
-            Debug.Log("Picked Card");
+            //Debug.Log("Picked Card");
         }
 
-        Debug.Log("Before Mana < cardToPlay");
+        //Debug.Log("Before Mana < cardToPlay");
         if (mana >= cardToPlay.GetComponent<EnemyCard>().GetManaCost() && !playingCard)
         {
-            Debug.Log("Inside Mana < cardToPlay");
+            //Debug.Log("Inside Mana < cardToPlay");
             StartCoroutine(PlayCard());
         }
 
@@ -78,7 +78,7 @@ public class EnemyController : MonoBehaviour
 
     private void PickWhatFileToPlayIn()
     {
-        whatFileToPlayIn = dropAreas[Random.Range(0, 1)];
+        whatFileToPlayIn = dropAreas[Random.Range(0, 2)];
     }
 
     private IEnumerator PlayCard()

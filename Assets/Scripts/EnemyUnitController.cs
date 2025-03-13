@@ -101,7 +101,7 @@ public class EnemyUnitController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("border"))
+        if (!collision.gameObject.CompareTag("Border"))
         {
             Debug.Log(gameObject.name + " Collided with " + collision.gameObject.name);
         }
@@ -111,7 +111,7 @@ public class EnemyUnitController : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("border"))
+        if (!collision.gameObject.CompareTag("Border"))
         {
             Debug.Log(gameObject.name + " Is no longer Colliding with " + collision.gameObject.name);
             touchingPlayer = false;
@@ -120,7 +120,7 @@ public class EnemyUnitController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("border"))
+        if (!collision.gameObject.CompareTag("Border"))
         {
             touchingPlayer = true;
         }

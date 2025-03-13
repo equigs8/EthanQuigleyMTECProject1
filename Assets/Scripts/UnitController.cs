@@ -30,6 +30,8 @@ public class UnitController : MonoBehaviour
     public int maxHealth;
     public int currentHealth;
 
+    public bool isEnemy;
+
     public UnitType unitType;
     void Start()
     {
@@ -60,21 +62,36 @@ public class UnitController : MonoBehaviour
     {
         Debug.Log("Inside GetCastleForList()");
 
-        GameObject[] gameObjectHolder = GameObject.FindGameObjectsWithTag("Castle");
-        GameObject[] enemyUnits = GameObject.FindGameObjectsWithTag("EnemyUnit");
 
 
-        Debug.Log(gameObjectHolder);
 
-        foreach (GameObject castle in gameObjectHolder)
+        if (isEnemy)
+        {
+            GameObject[] gameObjectHolder = GameObject.FindGameObjectsWithTag("Player");
+            GameObject[] enemyUnits = GameObject.FindGameObjectsWithTag("Unit");
+            AddToCastleTargetList(gameObjectHolder, enemyUnits);
+        }
+        else
+        {
+            GameObject[] gameObjectHolder = GameObject.FindGameObjectsWithTag("Castle");
+            GameObject[] enemyUnits = GameObject.FindGameObjectsWithTag("EnemyUnit");
+            AddToCastleTargetList(gameObjectHolder, enemyUnits);
+        }
+
+        
+
+    }
+
+    private void AddToCastleTargetList(GameObject[] list1, GameObject[] list2)
+    {
+        foreach (GameObject castle in list1)
         {
             castleTargetList.Add(castle.GetComponent<Transform>());
         }
-        foreach (GameObject enemyUnit in enemyUnits)
+        foreach (GameObject enemyUnit in list2)
         {
             castleTargetList.Add(enemyUnit.GetComponent<Transform>());
         }
-
     }
 
     void Update()
@@ -103,7 +120,11 @@ public class UnitController : MonoBehaviour
         }
         else
         {
-            unitUI.SetActive(false);
+            if (!isEnemy)
+            {
+                unitUI.SetActive(false);
+            }
+            
             ComputerControllsUnit();
         }
     }
@@ -125,7 +146,8 @@ public class UnitController : MonoBehaviour
     private void ComputerControllsUnit()
     {
         
-        
+        FindClosestCastle();
+
         if (castleTarget == null)
         {
             Debug.LogWarning("castleTarget is Null");
@@ -134,10 +156,9 @@ public class UnitController : MonoBehaviour
         
         if (touchingEnemy && !isAttacking)
         {
-            StartCoroutine(Attack());
+            StartCoroutine(Attack(castleTarget));
         }else if(!touchingEnemy && castleTarget != null)
         {
-            FindClosestCastle();
             Vector3 direction = castleTarget.position - transform.position;
             direction.Normalize();
             transform.position += direction * moveSpeed * Time.deltaTime;   
@@ -149,12 +170,16 @@ public class UnitController : MonoBehaviour
 
     internal void SetUnitType(UnitType type)
     {
-        unitType = type;
-        name = type.name;
-        gameObject.GetComponent<SpriteRenderer>().sprite = type.unitSprite;
-        attackingStrength = type.attack;
-        maxHealth = type.health;
-        currentHealth = maxHealth;
+        if (type != null)
+        {
+            unitType = type;
+            name = type.name;
+            gameObject.GetComponent<SpriteRenderer>().sprite = type.unitSprite;
+            attackingStrength = type.attack;
+            maxHealth = type.health;
+            currentHealth = maxHealth;
+        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -184,7 +209,7 @@ public class UnitController : MonoBehaviour
 
     public void FindClosestCastle()
     {
-        Debug.Log("castleTargetList Count = " + castleTargetList.Count);
+        //Debug.Log("castleTargetList Count = " + castleTargetList.Count);
 
         if (castleTarget == null && castleTargetList.Count == 0)
         {
@@ -214,7 +239,7 @@ public class UnitController : MonoBehaviour
 
         if (castleTarget != null)
         {
-            Debug.Log("Closest target found: " + castleTarget.name);
+            //Debug.Log("Closest target found: " + castleTarget.name);
         }
         else
         {
@@ -224,7 +249,7 @@ public class UnitController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!gameManager.CheckIfControlling() && gameObject.CompareTag("Enemy"));
+        if (!gameManager.CheckIfControlling() && isEnemy)
         {
             isControlling = true;
             gameManager.ControllingUnit(true);
@@ -238,14 +263,15 @@ public class UnitController : MonoBehaviour
         gameManager.ControllingUnit(false);
     }
 
-    private IEnumerator Attack(GameObject targetGameObject)
+    private IEnumerator Attack(Transform castleTarget)
     {
         isAttacking = true;
-        Debug.Log("Attack Coroutine started");
+        Debug.Log(gameObject.name + " Attack Coroutine started");
         yield return new WaitForSeconds(timeToAttack);
-        if (gameObject != null)
+        if (gameObject != null && castleTarget != null)
         {
-            if (castleTarget.CompareTag("Castle"))
+            Debug.Log(gameObject.name + " Is Attacking " + castleTarget.name);
+            if (castleTarget.CompareTag("Castle") || castleTarget.CompareTag("Player"))
             {
                 Castle target = castleTarget.GetComponent<Castle>();
                 target.TakeDamage(attackingStrength);
@@ -253,11 +279,11 @@ public class UnitController : MonoBehaviour
             }
             else
             {
-                EnemyUnitController target = castleTarget.GetComponent<EnemyUnitController>();
+                UnitController target = castleTarget.GetComponent<UnitController>();
                 target.TakeDamage(attackingStrength);
             }
         }
-        Debug.Log("Attack Over");
+        Debug.Log(gameObject.name + " Attack Over");
         isAttacking = false;
     }
 }
