@@ -38,7 +38,7 @@ public class Card : MonoBehaviour
     public GameObject manaCostUI;
     public TMP_Text manaCostUIText;
     
-
+    
         
     private void OnEnable()
     {
@@ -89,7 +89,7 @@ public class Card : MonoBehaviour
             }
 
             manaCostUI.SetActive(true);
-            manaCostUIText.text = manaCost.ToString();
+            manaCostUIText.text = "Cost: " + manaCost.ToString();
 
             Vector3 newPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition) + offset;
             newPosition.z = 0;
@@ -121,6 +121,7 @@ public class Card : MonoBehaviour
             }
             
         }
+        manaCostUI.SetActive(false);
         isDragging = false;
         isOverDropZone = false; // Reset the flag
         transform.position = cardPosition.position;

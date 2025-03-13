@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
     public UnitType[] Units;
     public List<Card> playerHand = new List<Card>();
 
+    public GameObject pauseMenu;
+    public bool gamePaused;
+
     public void checkIfWinner()
     {
         if (enemyCastles.Count == 0)
@@ -88,6 +91,20 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape)) 
+        {
+            if (!gamePaused)
+            {
+                pauseMenu.SetActive(true);
+                gamePaused = true;
+            }
+            else
+            {
+                pauseMenu.SetActive(false);
+                gamePaused = false;
+            }
+            
+        }
         if (!isWinner)
         {
             if (currentMana < maxMana)
