@@ -124,7 +124,7 @@ public class UnitController : MonoBehaviour
 
     private void ComputerControllsUnit()
     {
-        FindClosestCastle();
+        
         
         if (castleTarget == null)
         {
@@ -137,6 +137,7 @@ public class UnitController : MonoBehaviour
             StartCoroutine(Attack());
         }else if(!touchingEnemy && castleTarget != null)
         {
+            FindClosestCastle();
             Vector3 direction = castleTarget.position - transform.position;
             direction.Normalize();
             transform.position += direction * moveSpeed * Time.deltaTime;   
@@ -158,13 +159,27 @@ public class UnitController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(gameObject.name + " Collided with " + collision.gameObject.name);
-        touchingEnemy = true;
+        if (!collision.gameObject.CompareTag("Border"))
+        { 
+            Debug.Log(gameObject.name + " Collided with " + collision.gameObject.name);
+            //touchingEnemy = true;
+        }
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        touchingEnemy = false;
+        if (!collision.gameObject.CompareTag("Border"))
+        {
+            touchingEnemy = false;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (!collision.gameObject.CompareTag("Border"))
+        {
+            touchingEnemy = true;
+        }
     }
 
     public void FindClosestCastle()
@@ -209,7 +224,7 @@ public class UnitController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!gameManager.CheckIfControlling())
+        if (!gameManager.CheckIfControlling() && gameObject.CompareTag("Enemy"));
         {
             isControlling = true;
             gameManager.ControllingUnit(true);
@@ -223,23 +238,25 @@ public class UnitController : MonoBehaviour
         gameManager.ControllingUnit(false);
     }
 
-    private IEnumerator Attack()
+    private IEnumerator Attack(GameObject targetGameObject)
     {
         isAttacking = true;
         Debug.Log("Attack Coroutine started");
         yield return new WaitForSeconds(timeToAttack);
+        if (gameObject != null)
+        {
+            if (castleTarget.CompareTag("Castle"))
+            {
+                Castle target = castleTarget.GetComponent<Castle>();
+                target.TakeDamage(attackingStrength);
 
-        if (castleTarget.tag == "Castle")
-        {
-            Castle target = castleTarget.GetComponent<Castle>();
-            target.TakeDamage(attackingStrength);
-            
-        }else
-        {
-            EnemyUnitController target = castleTarget.GetComponent<EnemyUnitController>();
-            target.TakeDamage(attackingStrength);
+            }
+            else
+            {
+                EnemyUnitController target = castleTarget.GetComponent<EnemyUnitController>();
+                target.TakeDamage(attackingStrength);
+            }
         }
-        
         Debug.Log("Attack Over");
         isAttacking = false;
     }

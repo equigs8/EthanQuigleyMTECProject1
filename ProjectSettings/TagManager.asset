@@ -9,6 +9,7 @@ TagManager:
   - Castle
   - Unit
   - EnemyUnit
+  - Border
   layers:
   - Default
   - TransparentFX

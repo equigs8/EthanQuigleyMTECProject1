@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
         currentMana = maxMana;
         enemyCurrentMana = maxMana;
         manaText.text = Mathf.Round(currentMana).ToString();
-
+        
         InitializeDeck(); 
     }
 
@@ -93,19 +93,10 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape)) 
         {
-            if (!gamePaused)
-            {
-                pauseMenu.SetActive(true);
-                gamePaused = true;
-            }
-            else
-            {
-                pauseMenu.SetActive(false);
-                gamePaused = false;
-            }
+            PauseGame();
             
         }
-        if (!isWinner)
+        if (!isWinner && !gamePaused)
         {
             if (currentMana < maxMana)
             {
@@ -129,6 +120,22 @@ public class GameManager : MonoBehaviour
             Winner();
         }
         
+    }
+
+    public void PauseGame()
+    {
+        if (!gamePaused)
+        {
+            pauseMenu.SetActive(true);
+            gamePaused = true;
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            pauseMenu.SetActive(false);
+            gamePaused = false;
+            Time.timeScale = 1f;
+        }
     }
 
     void Winner()

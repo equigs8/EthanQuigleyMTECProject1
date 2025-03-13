@@ -56,6 +56,7 @@ public class EnemyUnitController : MonoBehaviour
         //Debug.Log("Inside GetCastleForList()");
 
         GameObject[] gameObjectHolder = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] gameObjectHolderUnits = GameObject.FindGameObjectsWithTag("Unit");
 
         //Debug.Log(gameObjectHolder);
 
@@ -63,12 +64,17 @@ public class EnemyUnitController : MonoBehaviour
         {
             castleTargetList.Add(castle.GetComponent<Transform>());
         }
+        foreach (GameObject unit in gameObjectHolderUnits)
+        {
+            castleTargetList.Add(unit.GetComponent<Transform>());
+        }
 
     }
 
     void Update()
     {
-        
+        castleTargetList = new List<Transform>();
+        GetCastlesForList();
         FindClosestCastle();
 
         if (castleTarget == null)
@@ -95,13 +101,29 @@ public class EnemyUnitController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(gameObject.name + " Collided with " + collision.gameObject.name);
-        touchingPlayer = true;
+        if (!collision.gameObject.CompareTag("border"))
+        {
+            Debug.Log(gameObject.name + " Collided with " + collision.gameObject.name);
+        }
+        
+        //touchingPlayer = true;
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        touchingPlayer = false;
+        if (!collision.gameObject.CompareTag("border"))
+        {
+            Debug.Log(gameObject.name + " Is no longer Colliding with " + collision.gameObject.name);
+            touchingPlayer = false;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (!collision.gameObject.CompareTag("border"))
+        {
+            touchingPlayer = true;
+        }
     }
 
     public void FindClosestCastle()
@@ -163,15 +185,16 @@ public class EnemyUnitController : MonoBehaviour
     private IEnumerator Attack()
     {
         isAttacking = true;
-        Debug.Log("Attack Coroutine started");
+        Debug.Log("Enemy Attack Coroutine started");
         yield return new WaitForSeconds(timeToAttack);
         if (gameObject != null)
         {
+            Debug.Log("Enemy gameObject not Null");
             UnitController target = castleTarget.GetComponent<UnitController>();
             target.TakeDamage(attackingStrength);
         }
 
-        Debug.Log("Attack Over");
+        Debug.Log("Enemy Attack Over");
         isAttacking = false;
     }
 }
