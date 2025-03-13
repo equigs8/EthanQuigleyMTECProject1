@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public bool controllingUnit = false;
 
     public GameObject unitPrefab;
+
+    
+
     public GameObject enemyUnitPrefab;
 
     public float maxMana = 1f;
@@ -38,16 +41,26 @@ public class GameManager : MonoBehaviour
     {
         if (enemyCastles.Count == 0)
         {
-            isWinner = true;
+            
             winnerName = "Player";
+            isWinner = true;
         }
         else if (playerCastles.Count == 0)
         {
-            isWinner = true;
+
             winnerName = "Enemy";
+            isWinner = true;
         }
     }
 
+    public string GetWinnerName()
+    {
+        return winnerName;
+    }
+    public bool ThereIsAWinner()
+    {
+        return isWinner;
+    }
     internal void removeCastle(string owner, GameObject castle)
     {
         if (owner == "player")

@@ -10,6 +10,7 @@ TagManager:
   - Unit
   - EnemyUnit
   - Border
+  - WinnerText
   layers:
   - Default
   - TransparentFX
